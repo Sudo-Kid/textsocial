@@ -1,8 +1,8 @@
-var twilioClient = require('../twilioClient');
+var twilioClient = require('./config.js');
 
-cfg.accountSid = process.env.TWILIO_ACCOUNT_SID;
-cfg.authToken = process.env.TWILIO_AUTH_TOKEN;
-cfg.sendingNumber = 6042391736;
+cfg.accountSid = config.sid;
+cfg.authToken = config.authToken;
+cfg.sendingNumber = config.sendingNumber;
 
 var client = require('twilio')(cfg.accountSid, cfg.authToken);
 

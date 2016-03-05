@@ -1,4 +1,4 @@
-var twilioClient = require('./config.js');
+var config = require('./config.js');
 
 cfg.accountSid = config.sid;
 cfg.authToken = config.authToken;
@@ -32,5 +32,11 @@ sendSms = function(to, message) {
     }
   });
 };
+
+client.messages.list(function(err, data) {
+    data.messages.forEach(function(message) {
+        console.log(message.body);
+    });
+});
 
 twilioClient.sendSms(phoneNumber, messageToSend);

@@ -55,11 +55,11 @@ for key in street_name:
 for key in street_type:
     engine.register_entity(key, "StreetType")
 
-for key in locality:
-    engine.locality(key, "Locality")
+# for key in locality:
+    # engine.locality(key, "Locality")
+    # .optionally("Locality")\
 
 address_intent = IntentBuilder("AddressIntent")\
-    .require("Locality")\
     .optionally("FullAddress")\
     .optionally("StreetNumber")\
     .optionally("StreetDirPrefix")\

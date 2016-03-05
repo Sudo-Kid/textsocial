@@ -2,7 +2,7 @@ var twilioClient = require('../twilioClient');
 
 cfg.accountSid = process.env.TWILIO_ACCOUNT_SID;
 cfg.authToken = process.env.TWILIO_AUTH_TOKEN;
-cfg.sendingNumber = process.env.TWILIO_NUMBER;
+cfg.sendingNumber = 6042391736;
 
 var client = require('twilio')(cfg.accountSid, cfg.authToken);
 
@@ -22,8 +22,7 @@ sendSms = function(to, message) {
   client.messages.create({
     body: message,
     to: to,
-    from: config.sendingNumber
-    // mediaUrl: 'http://www.yourserver.com/someimage.png'
+    from: cfg.sendingNumber
   }, function(err, data) {
     if (err) {
       console.error('Could not notify administrator');

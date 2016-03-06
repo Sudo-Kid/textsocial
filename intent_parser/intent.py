@@ -1,4 +1,5 @@
 # intent.py
+from flask import Flask, Response, request
 import csv
 import json
 import sys
@@ -40,36 +41,42 @@ with open('addresses.csv', 'rb') as csvfile:
         street_type.append(row[12])
         locality.append(row[14])
 
-for key in full_address:
-    engine.register_entity(key, "FullAddress")
+# for key in full_address:
+#    engine.register_entity(key, "FullAddress")
 
 for key in street_number:
     engine.register_entity(key, "StreetNumber")
 
-for key in street_dir_prefix:
-    engine.register_entity(key, "StreetDirPrefix")
+# for key in street_dir_prefix:
+#     engine.register_entity(key, "StreetDirPrefix")
 
 for key in street_name:
     engine.register_entity(key, "StreetName")
 
-for key in street_type:
-    engine.register_entity(key, "StreetType")
+# for key in street_type:
+#    engine.register_entity(key, "StreetType")
 
 # for key in locality:
     # engine.locality(key, "Locality")
     # .optionally("Locality")\
+    # .optionally("FullAddress")\
+    # .optionally("StreetDirPrefix")\
 
 address_intent = IntentBuilder("AddressIntent")\
-    .optionally("FullAddress")\
     .optionally("StreetNumber")\
-    .optionally("StreetDirPrefix")\
     .optionally("StreetName")\
     .optionally("StreetType")\
     .build()
 
 engine.register_intent_parser(address_intent)
 
+app = Flask(__name__)
+
+@app.route("/", methods=['GET', 'POST'])
+def get_address():
+    print(request.form.to_dict())
+    intent = engine.determine_intent(' '.join(request.form['message']))
+    return Response(intent, mimetype='application/json', headers={'Cache-Control': 'no-cache', 'Access-Control-Allow-Origin': '*'})
+
 if __name__ == "__main__":
-    for intent in engine.determine_intent(' '.join(sys.argv[1:])):
-        if intent.get('confidence') > 0:
-            print(json.dumps(intent, indent=4))
+    app.run(host='0.0.0.0', port=5000)

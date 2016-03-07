@@ -3,6 +3,7 @@ from django.views.generic import View
 
 import csv
 import os
+import json
 
 from adapt.intent import IntentBuilder
 from adapt.engine import IntentDeterminationEngine
@@ -49,6 +50,7 @@ def get_intent(message):
 
 class Index(View):
     def post(self, request, *args, **kwargs):
-        intent = get_intent(request.POST['message'])
+        message = json.loads(request.body).get('message')
+        intent = get_intent(message)
         print(intent)
         return JsonResponse(intent, safe=False)
